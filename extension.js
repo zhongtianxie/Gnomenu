@@ -110,7 +110,7 @@ const MenuButtonPosition = {
  * @desc    Code borrowed from SearchBookmarks extension by bmh1980
  * @desc    at https://extensions.gnome.org/extension/557/search-bookmarks/
  * ========================================================================= */
-
+/*
 const SearchWebBookmarks = new Lang.Class({
     Name: 'Gnomenu.SearchWebBookmarks',
 
@@ -140,7 +140,7 @@ const SearchWebBookmarks = new Lang.Class({
         Opera.deinit();
     }
 });
-
+*/
 
 /* =========================================================================
 /* name:    CategoryListButton
@@ -853,8 +853,8 @@ const PanelMenuButton = new Lang.Class({
         this._previousSelectedItemIndex = null;
         this._activeContainer = null;
 
-        this._searchWebBookmarks = new SearchWebBookmarks();
-        this._searchWebErrorsShown = false;
+//        this._searchWebBookmarks = new SearchWebBookmarks();
+//        this._searchWebErrorsShown = false;
         this._session = new GnomeSession.SessionManager();
         this.recentManager = Gtk.RecentManager.get_default();
         this.placesManager = null;
@@ -863,7 +863,7 @@ const PanelMenuButton = new Lang.Class({
 
     destroy: function() {
         this.parent();
-        this._searchWebBookmarks.destroy();
+ //       this._searchWebBookmarks.destroy();
     },
 
     // handler for when PanelMenuButton hotspot enter event
@@ -908,7 +908,7 @@ const PanelMenuButton = new Lang.Class({
             this._applicationsViewMode = settings.get_enum('startup-view-mode');
             this._appGridColumns = settings.get_int('apps-grid-column-count');
             this.recentCategory._opened = false;
-            this.webBookmarksCategory._opened = false;
+//            this.webBookmarksCategory._opened = false;
 
             // Set height (we also set constraints on scrollboxes
             // Why does height need to be set when already set constraints? because of issue noted below
@@ -938,11 +938,13 @@ const PanelMenuButton = new Lang.Class({
             this.viewModeBox.height = this.searchBox.height;
             this.powerGroupBox.height = this.searchBox.height;
             this._setButtonHeight(this.recentCategory.actor, this.searchBox.height);
-            this._setButtonHeight(this.webBookmarksCategory.actor, this.searchBox.height);
+            //this._setButtonHeight(this.webBookmarksCategory.actor, this.searchBox.height);
             this._setButtonHeight(this.toggleStartupAppsView.actor, this.searchBox.height);
             this._setButtonHeight(this.toggleListGridView.actor, this.searchBox.height);
+/*
             this._setButtonHeight(this.systemRestart.actor, this.searchBox.height);
             this._setButtonHeight(this.systemSuspend.actor, this.searchBox.height);
+*/  
             this._setButtonHeight(this.systemShutdown.actor, this.searchBox.height);
             this._setButtonHeight(this.logoutUser.actor, this.searchBox.height);
             this._setButtonHeight(this.lockScreen.actor, this.searchBox.height);
@@ -1114,13 +1116,13 @@ const PanelMenuButton = new Lang.Class({
         this._clearApplicationsBox(button);
 
         let places = this._listPlaces();
-        let bookmarks = this._listBookmarks();
+//        let bookmarks = this._listBookmarks();
         let devices = this._listDevices();
 
-        let allPlaces = places.concat(bookmarks.concat(devices));
+        let allPlaces = places.concat(devices);
         this._displayApplications(null, allPlaces);
     },
-
+/*
     _selectBookmarks: function(button) {
         this.resetSearch();
         this._clearApplicationsBox(button);
@@ -1128,6 +1130,7 @@ const PanelMenuButton = new Lang.Class({
         let bookmarks = this._listBookmarks();
         this._displayApplications(null, bookmarks);
     },
+*/
 
     _selectDevices: function(button) {
         this.resetSearch();
@@ -1145,6 +1148,7 @@ const PanelMenuButton = new Lang.Class({
         this._displayApplications(null, null, recent);
     },
 
+/*
     _selectWebBookmarks: function(button) {
         this.resetSearch();
         this._clearApplicationsBox(button);
@@ -1152,7 +1156,7 @@ const PanelMenuButton = new Lang.Class({
         let webBookmarks = this._listWebBookmarks();
         this._displayApplications(null, webBookmarks);
     },
-
+*/
     _switchApplicationsView: function(mode) {
         this._applicationsViewMode = mode;
         let refresh = true;
@@ -1198,7 +1202,7 @@ const PanelMenuButton = new Lang.Class({
 
     _clearUserGroupButtons: function() {
         this.recentCategory._opened = false;
-        this.webBookmarksCategory._opened = false;
+ //       this.webBookmarksCategory._opened = false;
     },
 
     _clearTabFocusSelections: function(selectedBox, resetSearch) {
@@ -1335,6 +1339,7 @@ const PanelMenuButton = new Lang.Class({
         return res;
     },
 
+/*
     _listBookmarks: function(pattern){
         if (!this.placesManager)
             return null;
@@ -1391,6 +1396,7 @@ const PanelMenuButton = new Lang.Class({
         res.sort(this._searchWebBookmarks.bookmarksSort);
         return res;
     },
+*/
 
     _listDevices: function(pattern) {
         if (!this.placesManager)
@@ -1669,10 +1675,11 @@ const PanelMenuButton = new Lang.Class({
             let recent = this._listRecent();
             this._clearApplicationsBox();
             this._displayApplications(null, null, recent);
-        } else if (this._startupAppsView == StartupAppsDisplay.WEBMARKS) {
+/*        } else if (this._startupAppsView == StartupAppsDisplay.WEBMARKS) {
             let webBookmarks = this._listWebBookmarks();
             this._clearApplicationsBox();
             this._displayApplications(null, webBookmarks);
+*/
         } else {
             this._clearApplicationsBox();
         }
@@ -2530,8 +2537,8 @@ const PanelMenuButton = new Lang.Class({
         let places = this._listPlaces(pattern);
         for (var i in places) placesResults.push(places[i]);
 
-        let webBookmarks = this._listWebBookmarks(pattern);
-        for (var i in webBookmarks) placesResults.push(webBookmarks[i]);
+//        let webBookmarks = this._listWebBookmarks(pattern);
+//        for (var i in webBookmarks) placesResults.push(webBookmarks[i]);
 
         let recentResults = this._listRecent(pattern);
 
@@ -2621,11 +2628,11 @@ const PanelMenuButton = new Lang.Class({
             this.recentCategory.actor.remove_style_pseudo_class('pressed');
             if (this.recentCategory._opened) {
                 this.recentCategory._opened = false;
-                this.webBookmarksCategory._opened = false;
+                //this.webBookmarksCategory._opened = false;
                 this._resetDisplayApplicationsToStartup();
             } else {
                 this.recentCategory._opened = true;
-                this.webBookmarksCategory._opened = false;
+                //this.webBookmarksCategory._opened = false;
                 this._selectRecent(this.recentCategory);
                 this.selectedAppTitle.set_text(this.recentCategory.label.get_text());
                 this.selectedAppDescription.set_text('');
@@ -2633,6 +2640,7 @@ const PanelMenuButton = new Lang.Class({
         }));
 
         // Create 'webBookmarks' category button
+/*
         this.webBookmarksCategory = new GroupButton( "web-browser-symbolic", userGroupButtonIconSize, null, {style_class: 'gnomenu-user-group-button'});
         this.webBookmarksCategory.setButtonEnterCallback(Lang.bind(this, function() {
             this.webBookmarksCategory.actor.add_style_class_name('selected');
@@ -2662,9 +2670,9 @@ const PanelMenuButton = new Lang.Class({
                 this.selectedAppDescription.set_text('');
             }
         }));
-
+*/
         this.userGroupBox.add(this.recentCategory.actor, {x_fill:false, y_fill:false, x_align:St.Align.MIDDLE, y_align:St.Align.MIDDLE});
-        this.userGroupBox.add(this.webBookmarksCategory.actor, {x_fill:false, y_fill:false, x_align:St.Align.MIDDLE, y_align:St.Align.MIDDLE});
+//        this.userGroupBox.add(this.webBookmarksCategory.actor, {x_fill:false, y_fill:false, x_align:St.Align.MIDDLE, y_align:St.Align.MIDDLE});
 
         if (settings.get_boolean('hide-useroptions')) {
             this.userGroupBox.hide();
@@ -2713,7 +2721,6 @@ const PanelMenuButton = new Lang.Class({
             }
             this._resetDisplayApplicationsToStartup();
         }));
-
 
         this.toggleListGridView = new GroupButton(viewModeButtonIcon, viewModeButtonIconSize, null, {style_class: 'gnomenu-view-mode-button'});
         this.toggleListGridView.setButtonEnterCallback(Lang.bind(this, function() {
@@ -2839,9 +2846,9 @@ const PanelMenuButton = new Lang.Class({
         let shortcutType;
         if (settings.get_enum('shortcuts-display') == ShortcutsDisplay.PLACES) {
             let places = this._listPlaces();
-            let bookmarks = this._listBookmarks();
+//            let bookmarks = this._listBookmarks();
             let devices = this._listDevices();
-            let allPlaces = places.concat(bookmarks.concat(devices));
+            let allPlaces = places.concat(devices);
             shortcuts = allPlaces;
             shortcutType = ApplicationType.PLACE;
         } else {
@@ -3112,7 +3119,7 @@ const PanelMenuButton = new Lang.Class({
         let powerGroupButtonIconSize = 18;
         if (settings.get_enum('menu-layout') == MenuLayout.COMPACT)
             powerGroupButtonIconSize = 16;
-
+/*
         this.systemRestart = new GroupButton('refresh-symbolic', powerGroupButtonIconSize, null, {style_class: 'gnomenu-power-group-button'});
         this.systemRestart.setButtonEnterCallback(Lang.bind(this, function() {
             this.systemRestart.actor.add_style_class_name('selected');
@@ -3168,6 +3175,7 @@ const PanelMenuButton = new Lang.Class({
                     }
             }));
         }));
+*/
         this.systemShutdown = new GroupButton('shutdown-symbolic', powerGroupButtonIconSize, null, {style_class: 'gnomenu-power-group-button'});
         this.systemShutdown.setButtonEnterCallback(Lang.bind(this, function() {
             this.systemShutdown.actor.add_style_class_name('selected');
@@ -3240,9 +3248,10 @@ const PanelMenuButton = new Lang.Class({
             Main.overview.hide();
             Main.screenShield.lock(true);
         }));
-
+/*
         this.powerGroupBox.add(this.systemRestart.actor, {x_fill:false, y_fill:false, x_align:St.Align.MIDDLE, y_align:St.Align.MIDDLE});
         this.powerGroupBox.add(this.systemSuspend.actor, {x_fill:false, y_fill:false, x_align:St.Align.MIDDLE, y_align:St.Align.MIDDLE});
+ */ 
         this.powerGroupBox.add(this.systemShutdown.actor, {x_fill:false, y_fill:false, x_align:St.Align.MIDDLE, y_align:St.Align.MIDDLE});
         this.powerGroupBox.add(this.logoutUser.actor, {x_fill:false, y_fill:false, x_align:St.Align.MIDDLE, y_align:St.Align.MIDDLE});
         this.powerGroupBox.add(this.lockScreen.actor, {x_fill:false, y_fill:false, x_align:St.Align.MIDDLE, y_align:St.Align.MIDDLE});
