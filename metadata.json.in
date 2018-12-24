@@ -1,0 +1,14 @@
+{
+  "name": "Gxos-Menu",
+  "extension-id": "@extension_id@",
+  "uuid": "@uuid@",
+  "settings-schema": "@gschemaname@",
+  "gettext-domain": "@gettext_domain@",
+  "original-author": "panacier.gmail.com", 
+  "description": "Gno-Menu is a traditional styled full featured Gnome-Shell apps menu, that aims to offer all the essentials in a simple uncluttered intuitive interface.",
+  "shell-version": [
+    "3.28"
+  ],
+  "url": "https://github.com/The-Panacea-Projects/Gnomenu",
+  "version": 26
+}
